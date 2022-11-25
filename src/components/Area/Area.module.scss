@@ -1,0 +1,91 @@
+@import '../../scss/variables';
+
+.area {
+  height: 70vh;
+  border-radius: 10px;
+  background-color: white;
+  opacity: .95;
+  margin-top: 20px;
+}
+
+.area__heading {
+  font-size: $f-s-b;
+  margin: 20px 0;
+}
+
+.area__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  position: relative;
+}
+
+.area__clear {
+  @include button;
+  height: 20px;
+  font-size: $f-s-m;
+  color: $pink;
+  top: 50px;
+  right: 30px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: $transition;
+  position: absolute;
+}
+
+.area__clear:hover {
+  color: $blue;
+}
+
+.form {
+  width: 80%;
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__input {
+  width: 200px;
+  border-radius: 5px;
+
+}
+
+.area__add {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50px;
+  left: 30px;
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: $transition;
+}
+
+.area__add:hover {
+  opacity: .7;
+}
+
+.form__submit {
+  @include button;
+  width: 30px;
+  height: 20px;
+  color: $pink;
+  font-size: $f-s-s;
+  transition: $transition;
+  cursor: pointer;
+}
+
+.form__submit:hover {
+  color: $blue;
+}
+
+.form__cancel {
+  composes: form__submit;
+}
+
+.area__content {
+  width: 80%;
+  margin: 0 auto;
+  height: 80%;
+  overflow-y: auto;
+}

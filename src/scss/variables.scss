@@ -1,0 +1,11 @@
+$pink: #c471ed;
+$blue: #12c2e9;
+$transition: all .3s ease;
+$f-s-m: 20px;
+$f-s-s: 15px;
+$f-s-b: 32px;
+
+@mixin button {
+  background-color: transparent;
+  border: none;
+}
