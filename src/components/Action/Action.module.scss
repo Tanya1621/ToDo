@@ -11,10 +11,16 @@
     justify-content: space-between;
     width: 80%;
     margin: 0 auto 10px;
+
+
 }
 
 p{
     margin: 0;
     text-align: left;
     font-size: $f-s-s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
 }

@@ -17,13 +17,15 @@ function Area({name}) {
     const items = allItems.filter(el => el.board === name);
 
 
-    const [, dropRef] = useDrop({
+    const [{isHover}, dropRef] = useDrop({
         accept: 'action',
         drop(item) {
-            console.log(item);
             dispatch(deleteAction({...item.id}))
             dispatch(addAction({...item.id, board: name}))
-        }
+        },
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        })
     })
 
 
@@ -53,7 +55,7 @@ function Area({name}) {
 
     return (
         <div className={style.area__wrapper}>
-            <div className={style.area} ref={dropRef}>
+            <div className={style.area} ref={dropRef} style={isHover? {border: 'solid #12c2e9 2px'} : null}>
                 <h2 className={style.area__heading}>{name}</h2>
                 <div className={style.area__content}>
                     {activeInput && <form onSubmit={onSubmit} className={style.form}>
