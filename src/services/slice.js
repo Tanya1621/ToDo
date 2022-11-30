@@ -8,11 +8,14 @@ export const toDoSlice = createSlice( {
     name: 'todo',
     initialState,
     reducers: {
+        initActions: (state, action) => {
+            state.actions = [...action.payload]
+        },
         addAction: (state, action) => {
             state.actions = [...state.actions, action.payload]
         },
         deleteAction: (state, action) => {
-            state.actions = [...state.actions.filter(el => el.id !== action.payload.id)]
+            state.actions = [...state.actions.filter(el => el._id !== action.payload._id)]
         },
         clearBoard: (state, action) => {
             state.actions = [...state.actions.filter(el => el.board !== action.payload)]
@@ -21,5 +24,5 @@ export const toDoSlice = createSlice( {
     }
 )
 
-export const {addAction, deleteAction, clearBoard} = toDoSlice.actions;
+export const {addAction, deleteAction, clearBoard, initActions} = toDoSlice.actions;
 export default toDoSlice.reducer;

@@ -8,13 +8,14 @@ const Action = ({item, deleteItem, index}) => {
     const id = item;
     const [,dragRef] = useDrag({
         type: 'action',
-        item: {id}}
+        item: {...id},
+        }
     )
 
     return (
         <div ref={dragRef} className={style.action}>
-            <p>{index + 1}. {item.message}</p>
-            <img src={deleteButton} onClick={() => deleteItem(item.id)} className={style.action__button}/>
+            <p>{index + 1}. {item.todo}</p>
+            <img src={deleteButton} onClick={() => deleteItem(item)} className={style.action__button}/>
         </div>
     );
 };

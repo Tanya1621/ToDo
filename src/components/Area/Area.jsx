@@ -20,8 +20,24 @@ function Area({name}) {
     const [{isHover}, dropRef] = useDrop({
         accept: 'action',
         drop(item) {
-            dispatch(deleteAction({...item.id}))
-            dispatch(addAction({...item.id, board: name}))
+            console.log(item)
+            dispatch(deleteAction({...item}))
+            fetch(`http://localhost:8000/delete/todo/${item._id}`, {
+                method: 'GET',
+            }).then(res => {
+                console.log(res.json())
+            })
+
+            dispatch(addAction({...item, board: name}))
+            fetch('http://localhost:8000/add/todo', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({todo: item.todo, board: name, _id: item._id})
+            }).then(res => {
+                console.log(res.json())
+            })
         },
         collect: monitor => ({
             isHover: monitor.isOver(),
@@ -31,18 +47,35 @@ function Area({name}) {
 
     function onSubmit(e) {
         e.preventDefault();
-        dispatch(addAction({id: uuidv4(), message: input.current.value, board: name}))
+        dispatch(addAction({_id: uuidv4(), todo: input.current.value, board: name}))
+        fetch('http://localhost:8000/add/todo', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({todo: input.current.value, board: name})
+        }).then(res => {
+            console.log(res.json())
+        })
         input.current.value = '';
         setActive(false);
     }
 
-    function deleteItem(id) {
-        const deletedItem = items.filter(el => el.id === id);
-        dispatch(deleteAction(deletedItem[0]));
+    function deleteItem(item) {
+        const deletedItem = items.filter(el => el._id === item._id);
+        dispatch(deleteAction(...deletedItem));
+        fetch(`http://localhost:8000/delete/todo/${deletedItem[0]._id}`, {
+            method: 'GET',
+        }).then(res => {
+            console.log(res.json())
+        })
     }
 
     function deleteAll() {
-        dispatch(clearBoard(name))
+        dispatch(clearBoard(name));
+        allItems.forEach(el => {
+            deleteItem(el);
+        })
     }
 
     function addNewAction() {
@@ -64,7 +97,7 @@ function Area({name}) {
                         <button onClick={cancel} className={style.form__cancel}>No</button>
                     </form>}
                     {items.map((el, index) => {
-                        return <Action item={el} key={el.id} deleteItem={deleteItem} index={index}></Action>
+                        return <Action item={el} key={el._id} deleteItem={deleteItem} index={index}></Action>
                     })}
                 </div>
                 {items.length !== 0 && <button onClick={deleteAll} className={style.area__clear}>Clear</button>}
